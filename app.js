@@ -9,7 +9,7 @@ var newslettersRouter = require("./routes/newsletters");
 
 var app = express();
 
-// view engine setup
+// view engine setups
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());

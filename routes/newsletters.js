@@ -4,10 +4,30 @@ var router = express.Router();
 
 /* GET home page. */
 router.get("/", async function (req, res, next) {
-  const { data } = await axios.get(
+  const data1 = await axios.get("https://versescore.herokuapp.com/upcoming");
+  const verse1 = data1.data.data;
+  const verse = verse1.map((val) => {
+    if (val.image === "") {
+      val.image =
+        "https://bernardmarr.com/wp-content/uploads/2021/11/What-Are-NFTs-An-Easy-Explanation-For-Anyone.jpg";
+    }
+    return {
+      Project: val?.name,
+      mintprice: val?.mintprice,
+      website: val?.website,
+      discord: val?.discord,
+      saleDate: val.release,
+      twitter: val?.twitter,
+      blockchain: val?.blockchain,
+      description: val?.description,
+      image: val?.image,
+    };
+  });
+  console.log(verse);
+  const { data: data4 } = await axios.get(
     "https://collections.rarity.tools/upcoming2"
   );
-  const newdata = data.map((val) => {
+  const reality = data4.map((val) => {
     delete Object.assign(val, { ["imagecount"]: val["Image Count"] })[
       "Image Count"
     ];
@@ -17,15 +37,18 @@ router.get("/", async function (req, res, next) {
     delete Object.assign(val, { ["presaleDate"]: val["Listed Date"] })[
       "Listed Date"
     ];
+    delete Object.assign(val, { ["twitter"]: val["TwitterId"] })["TwitterId"];
     delete Object.assign(val, { ["saleDate"]: val["Sale Date"] })["Sale Date"];
     delete Object.assign(val, { ["maxItems"]: val["Max Items"] })["Max Items"];
+    delete Object.assign(val, { ["website"]: val["Website"] })["Website"];
+    val.image =
+      "https://bernardmarr.com/wp-content/uploads/2021/11/What-Are-NFTs-An-Easy-Explanation-For-Anyone.jpg";
 
     return val;
   });
-  console.log(newdata);
-  res.status(200).json({
-    newdata,
-  });
+  const newdata = [...reality, ...verse];
+
+  res.status(200).json(newdata);
 });
 router.get("/heloo", async function (req, res, next) {
   res.status(200).json({
