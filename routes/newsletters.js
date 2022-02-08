@@ -23,7 +23,7 @@ router.get("/", async function (req, res, next) {
       image: val?.image,
     };
   });
-  console.log(verse);
+
   const { data: data4 } = await axios.get(
     "https://collections.rarity.tools/upcoming2"
   );
@@ -39,8 +39,10 @@ router.get("/", async function (req, res, next) {
     ];
     delete Object.assign(val, { ["twitter"]: val["TwitterId"] })["TwitterId"];
     delete Object.assign(val, { ["saleDate"]: val["Sale Date"] })["Sale Date"];
+    delete Object.assign(val, { ["discord"]: val["Discord"] })["Discord"];
     delete Object.assign(val, { ["maxItems"]: val["Max Items"] })["Max Items"];
     delete Object.assign(val, { ["website"]: val["Website"] })["Website"];
+    delete Object.assign(val, { ["mintprice"]: `${val["Price"]}ETH` })["Price"];
     val.image =
       "https://bernardmarr.com/wp-content/uploads/2021/11/What-Are-NFTs-An-Easy-Explanation-For-Anyone.jpg";
 
