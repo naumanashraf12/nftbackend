@@ -27,5 +27,10 @@ router.get("/", async function (req, res, next) {
     newdata,
   });
 });
+router.get("/heloo", async function (req, res, next) {
+  res.status(200).json({
+    message: "hellp",
+  });
+});
 
 module.exports = router;
